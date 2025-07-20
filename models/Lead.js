@@ -8,7 +8,9 @@ const LeadSchema = new mongoose.Schema({
   priority: String,
   status: String,
   comments: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Comment' }],
-  tags: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Tag' }]
+  tags: { 
+    type: [String]
+  },
 }, { timestamps: true });
 
 module.exports = mongoose.model('Lead', LeadSchema);
