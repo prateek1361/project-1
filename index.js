@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const app = express();
 const { initializeDatabase } = require("./db/db.connect");
 const Lead = require('./models/Lead');
-const Agent = require('./models/Agent');
+const Agent = require('./models/Agent')
 const Comment = require('./models/Comment');
 const Tag = require('./models/Tag');
 
