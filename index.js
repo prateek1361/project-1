@@ -37,7 +37,7 @@ app.get('/leads', async (req, res) => {
   if (req.query.source) filter.source = req.query.source;
   if (req.query.priority) filter.priority = req.query.priority;
   const leads = await Lead.find(filter)
-    .populate('assignedAgent tags comments');
+    .populate('assignedAgent').populate('comments')
   res.json(leads);
 });
 

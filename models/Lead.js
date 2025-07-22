@@ -11,9 +11,9 @@ const leadSchema = new mongoose.Schema({
     required: [true, 'Lead source is required'],
     enum: ['Website', 'Referral', 'Cold Call', 'Advertisement', 'Email', 'Other'], 
   },
-  salesAgent: {
+  assignedAgent: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'SalesAgent',  
+    ref: 'Agent',  
     required: [true, 'Sales Agent is required'],
   },
   status: {
@@ -36,6 +36,10 @@ const leadSchema = new mongoose.Schema({
     enum: ['High', 'Medium', 'Low'],  
     default: 'Medium',
   },
+    comments: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Comment'
+  }],
   createdAt: {
     type: Date,
     default: Date.now,
