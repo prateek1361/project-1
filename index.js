@@ -41,6 +41,23 @@ app.get('/leads', async (req, res) => {
   res.json(leads);
 });
 
+app.get('/leads/:leadId', async (req, res) => {
+  try {
+    const lead = await Lead.findById(req.params.leadId)
+      .populate('assignedAgent')
+      .populate('comments');
+    
+    if (!lead) {
+      return res.status(404).json({ message: 'Lead not found' });
+    }
+
+    res.json(lead);
+  } catch (error) {
+    res.status(500).json({ message: 'Server error', error });
+  }
+});
+
+
 app.patch('/leads/:leadId', async (req, res) => {
   const updated = await Lead.findByIdAndUpdate(
     req.params.leadId,
