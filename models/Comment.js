@@ -7,11 +7,7 @@ const commentSchema = new mongoose.Schema({
     ref: 'Lead', 
     required: [true, 'Lead reference is required'],
   },
-  author: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Agent', 
-    required: [true, 'Author is required'],
-  },
+
   commentText: {
     type: String,
     required: [true, 'Comment text is required'],

@@ -75,11 +75,38 @@ app.delete('/leads/:leadId', async (req, res) => {
 
 
 app.post('/leads/:leadId/comments', async (req, res) => {
-  const comment = new Comment({ ...req.body, lead: req.params.leadId });
-  await comment.save();
-  await Lead.findByIdAndUpdate(req.params.leadId, { $push: { comments: comment._id } });
-  res.status(201).json(comment);
+  try {
+    const { leadId } = req.params;
+    const { commentText } = req.body;
+
+    if (!commentText) {
+      return res.status(400).json({ message: "Comment text is required" });
+    }
+
+    const lead = await Lead.findById(leadId);
+    if (!lead) {
+      return res.status(404).json({ message: "Lead not found" });
+    }
+
+    const comment = new Comment({
+      commentText,
+      lead: leadId,
+      createdAt: new Date()
+    });
+
+    await comment.save();
+
+    await Lead.findByIdAndUpdate(leadId, {
+      $push: { comments: comment._id }
+    });
+
+    res.status(201).json(comment);
+  } catch (err) {
+    console.error("Error in POST /leads/:leadId/comments:", err);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
 });
+
 
 app.get('/leads/:leadId/comments', async (req, res) => {
   const lead = await Lead.findById(req.params.leadId).populate('comments');
